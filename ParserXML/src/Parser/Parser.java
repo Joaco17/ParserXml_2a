@@ -62,18 +62,73 @@ public class Parser {
 		return Integer.parseInt(getTextValue(elemento,tagName));
 		
 	}
+	public int getIntAttributeValue(Element element, String tag, String attribute){
+		int i = -1;
+		NodeList list = element.getElementsByTagName(tag);
+		if(list != null && list.getLength() > 0){
+			Element e = (Element) list.item(0);
+			String value = e.getAttribute(attribute);
+			try{
+				i = Integer.parseInt(value);
+			}catch(NumberFormatException ex){
+				i = -1;
+			}
+		}
+		return i;
+	}
 	
 	public Libro obtenerLibro(Element elemento){
 		String titulo = getTextValue(elemento,"titulo");
-		String autor = getTextValue(elemento,"autor");
-		int año = getIntValue(elemento,"año");
-		String editorial = getTextValue(elemento,"editorial");
-		int num_paginas = getIntValue(elemento,"num_paginas");
+		ArrayList<String> autor = getNombresAutor(elemento,"autor","nombre");
+		int año = getIntAttributeValue(elemento,"titulo","anyo");
+		String editorial = getTextValue(elemento,"editor");
+		int numPaginas = getIntValue(elemento,"paginas");
 		
-		Libro nuevoLibro = new Libro(titulo, autor, año, editorial,num_paginas);
+		Libro nuevoLibro = new Libro(titulo, autor, año, editorial,numPaginas);
 		
 		return nuevoLibro;
 		
+	}
+	
+	public void getAtributo(Element element, String tagName, String atributo){
+		String textValue = null;
+		NodeList listaNodos = (NodeList) element.getAttributes();
+		
+	}
+	
+	public ArrayList<String> getNombresAutor(Element element, String autor, String nombre){
+		ArrayList<String> nombres = new ArrayList<String>();
+		NodeList list = element.getElementsByTagName(autor);
+		if(list != null && list.getLength() > 0){
+				Element elementNombre = (Element) list.item(0);
+				NodeList nodeList = elementNombre.getElementsByTagName(nombre);
+				for(int i = 0;i<nodeList.getLength();i++){
+					Element e = (Element) nodeList.item(i);
+					String nom = e.getTextContent();
+					nombres.add(nom);	
+				}
+				
+		}
+		return nombres;
+	}
+	
+	
+	public void parseDocument(){
+		Element element = dom.getDocumentElement();
+		NodeList nodeList = element.getElementsByTagName("libro");
+		
+		if(nodeList != null && nodeList.getLength()>0){
+				  
+			for(int i=0;i<nodeList.getLength();i++){
+			element = (Element)nodeList.item(i);
+				    
+				    if(element.hasAttribute("anyo")){
+				    	System.out.println(element.getAttribute("anyo"));{
+				    }
+				    
+				    }
+				  }
+				}
 	}
 	
 	
@@ -96,15 +151,9 @@ public class Parser {
 	
 	public void print(){
 		Iterator it = libros.iterator();
-		
 		while(it.hasNext()){
-			Libro libro = (Libro) it.next();
-			System.out.println("Título: "+libro.getTitulo());
-			System.out.println("Autor: "+libro.getAutor());
-			System.out.println("Año: "+libro.getAño());
-			System.out.println("Editorial: "+libro.getEditorial());
-			System.out.println("Páginas: "+libro.getNumero_paginas());
-			System.out.println("");
+			Libro l = (Libro)it.next();
+			l.print();
 		}
 	}
 }

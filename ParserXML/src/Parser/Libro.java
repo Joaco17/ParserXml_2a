@@ -1,20 +1,21 @@
 package Parser;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Libro implements Serializable {
 private String titulo;
-private String autor;
+private ArrayList<String> autor;
 private int año;
 private String editorial;
-private int numero_paginas;
+private int numPaginas;
 
-public Libro(String t, String a, int añ, String e, int num){
+public Libro(String t, ArrayList<String> autor, int añ, String e, int numP){
 	this.titulo=t;
-	this.autor= a;
+	this.autor= autor;
 	this.año=añ;
 	this.editorial=e;
-	this.numero_paginas=num;
+	this.numPaginas=numP;
 }
 
 public String getTitulo() {
@@ -25,11 +26,11 @@ public void setTitulo(String titulo) {
 	this.titulo = titulo;
 }
 
-public String getAutor() {
+public ArrayList<String> getAutor() {
 	return autor;
 }
 
-public void setAutor(String autor) {
+public void setAutor(ArrayList<String> autor) {
 	this.autor = autor;
 }
 
@@ -50,11 +51,22 @@ public void setEditorial(String editorial) {
 }
 
 public int getNumero_paginas() {
-	return numero_paginas;
+	return numPaginas;
 }
 
 public void setNumero_paginas(int numero_paginas) {
-	this.numero_paginas = numero_paginas;
+	this.numPaginas = numero_paginas;
+}
+
+public void print(){
+	System.out.println("Titulo: "+titulo);
+	
+	System.out.println("Autor: "+autor.get(0)+" "+autor.get(1));			
+	
+	System.out.println("Año: "+año);
+	System.out.println("Editorial: "+editorial);
+	System.out.println("Numero de paginas: "+numPaginas);
+	System.out.println("------------------------------------");
 }
 
 
